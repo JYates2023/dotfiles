@@ -1,14 +1,31 @@
 echo $SUDO_USER
 ME=$SUDO_USER
 
+TBash="/home/$ME/.bashrc"
+SBash="/home/$ME/dotfiles/.bashrc"
+
+TGConfig="/home/$ME/.gitconfig"
+SGConfig="/home/$ME/dotfiles/.gitconfig"
+
+sshdir="/home/$ME/.ssh"
+
+Tauthkeys="/home/$ME/.ssh/authorized_keys"
+Sauthkeys="/home/$ME/dotfiles/authorized_keys"
+
+TVRC="/home/$ME/.vimrc"
+SVRC="/home/$ME/dotfiles/.vimrc"
+
+## Checking if in root
 if [[ "$(id -u)" -eq 0 ]]; then
 	echo "It be in root!"
-
+	
+	## Verifying apt installer
 	echo $(which apt)
 	if [[ -n "$(which apt)" ]]; 
 	then
 		echo "apt do be installed there."
-
+		
+		## Installing defaults
 		apt install -y \
 			nmap \
 			dnsutils \
@@ -41,3 +58,72 @@ else
 	echo "script aint in root ;T;" 1>&2
 	exit 1
 fi
+
+
+## Creating/linking .bashrc
+if [ ! -f "$TBash" ]; then
+	echo "Creating .bashrc file"
+	ln -s "$SBash" "$TBash"
+	echo ".bashrc created"
+else
+	if [ ! -h "$TBash" ]; then
+		rm "$TBASH" 
+		ln -s "$SBASH" "$TBASH"
+	fi
+fi
+
+
+## Creating/linking .gitconfig
+if [ ! -f "$TGConfig" ]; then
+	echo "Creating .gitconfig file"
+	ln -s "$SGConfig" "$TGConfig"
+	echo "Created .gitconfig"
+else
+	if [ ! -h "TGConfig" ]; then
+		rm "$TGConifg"
+		ln -s "$SGConfig" "$TGConfig"
+	fi
+fi
+
+
+## Creating .ssh
+if [ ! -d "$sshdir" ]; then
+	echo "Creating .ssh folder"
+	mkdir -p "$sshdir"
+	chmod 700 "$sshdir"
+	echo ".ssh created"
+else
+	echo ".ssh exists"
+fi
+
+
+## Creating/linking authkeys
+if [ ! -f "$Tauthkeys" ]; then
+	echo "Creating authorized_keys file"
+	ln -s "$Sauthkeys" "$Tauthkeys"
+	echo "authorized_keys created"
+else
+	if [ ! -h "$Tauthkeys" ]; then
+		rm "$Tauthkeys"
+		ln -s "$Sauthkeys" "$Tauthkeys"
+	fi
+fi 
+
+## Install Vundle
+echo "Getting Vundle"
+git clone https://github.com/VundleVim/Vundle.vim.git /home/$ME/.vim/bundle/Vundle.vim
+
+## Creating/linking .vimrc
+if [ ! -f "$TVRC" ]; then
+	echo "Creating .vimrc file"
+	ln -s "$SVRC" "$TVRC"
+	echo ".vimrc created"
+else
+	if [ ! -h "$TVRC" ]; then
+		rm "$TVRC"
+		ln -s "$SVRC" "$TVRC"
+	fi
+fi
+
+## Install vim plugins
+vim +PluginInstall +qall
