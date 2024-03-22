@@ -1,1 +1,9 @@
-/home/xheram/.gitconfig
+[user]
+	email = yates.65@wright.edu
+	name = Xheram
+[core]
+	editor = nano
+[commit]
+	template = /home/xheram/2410/dotfiles/.git/gitmessage.txt
+[help]
+	autocorrect = 1

@@ -125,5 +125,5 @@ else
 	fi
 fi
 
-## Install vim plugins
-vim +PluginInstall +qall
+## Install vim plugins +
+vim +'PluginInstall --sync' +qall

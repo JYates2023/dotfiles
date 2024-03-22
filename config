@@ -1,1 +1,4 @@
-/home/xheram/.ssh/config
+Host fry
+        User w005jjy
+        HostName fry.cs.wright.edu
+        Port 22
